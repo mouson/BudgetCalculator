@@ -22,6 +22,14 @@ class BudgetCalculator
         if ($end->lt($start)) {
             throw new \InvalidArgumentException('Argument Invalid!!');
         }
-        return 100;
+
+        if ($start->isSameMonth($end, true)) {
+            $budgets = $this->model->query();
+            $budget = $budgets[$start->format('Ym')];
+
+            $ratio = (($start->diffInDays($end)+1) / $start->daysInMonth);
+
+            return $budget * $ratio;
+        }
     }
 }
