@@ -26,7 +26,7 @@ class BudgetCalculatorTest extends TestCase
 
         // Act
         $start = '2018/02/03';
-        $end =   '2018/02/01';
+        $end = '2018/02/01';
 
         $calculator = new BudgetCalculator();
 
@@ -57,6 +57,7 @@ class BudgetCalculatorTest extends TestCase
         return [
             ['2018/03/01', '2018/03/31', $this->getData(), 0],
             ['2018/01/01', '2018/01/31', $this->getData(), 3100],
+            ['2018/01/03', '2018/01/15', $this->getData(), 1300],
 //            ['2017/07/18', '2018/02/16', $this->getData(), 0],
 //            ['2018/01/01', '2018/01/31', 3100],
         ];
@@ -74,4 +75,28 @@ class BudgetCalculatorTest extends TestCase
         ];
     }
 
+
+    /**
+     *
+     * @dataProvider datesProvider
+     */
+    public function getBudget2()
+    {
+        $start = '2018/01/10';
+        $end = '2018/04/30';
+        $data = $this->getData();
+        $expected = 0;
+
+        // Arrange
+        $model = Mockery::mock(new BudgetModel());
+        $model->shouldReceive('query')->andReturn($data);
+
+        $calculator = new BudgetCalculator($model);
+
+        // Act
+        $actual = $calculator->calculate($start, $end);
+
+        // Assert
+        $this->assertEquals($expected, $actual);
+    }
 }
