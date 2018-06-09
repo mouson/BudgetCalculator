@@ -25,7 +25,7 @@ class BudgetCalculator
         $budgets = $this->model->query();
         if ($start->isSameMonth($end, true)) {
 
-            $budget = $budgets[$start->format('Ym')];
+            $budget = $this->getBudget($budgets, $start->format('Ym'));;
 
             $ratio = (($start->diffInDays($end)+1) / $start->daysInMonth);
 
@@ -35,7 +35,7 @@ class BudgetCalculator
         $total_budget = 0;
         for (
             $date = $start->copy();
-            ! $date->isSameMonth($end->copy()->addMonth(), true);
+            ! $date->isSameMonth($end->copy()->addMonthNoOverflow(), true);
             $date->addMonthNoOverflow()
         ) {
             $budget = $this->getBudget($budgets, $date->format('Ym'));
@@ -53,7 +53,6 @@ class BudgetCalculator
 
             $total_budget += $budget * $ratio;
 
-            echo $date->format('Ym') . PHP_EOL;
         }
 
         return $total_budget;
