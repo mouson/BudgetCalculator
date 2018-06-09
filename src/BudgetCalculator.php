@@ -11,5 +11,6 @@ class BudgetCalculator
         if ($end->lt($start)) {
             throw new \InvalidArgumentException('Argument Invalid!!');
         }
+        return 100;
     }
 }

@@ -23,4 +23,22 @@ class BudgetCalculatorTest extends TestCase
         $actual = $target->calculate(new Carbon('2018-05-05'), new Carbon('2018-01-01'));
 
     }
+
+    /**
+     * @test
+     */
+    public function testOneBudget()
+    {
+        /** Arrange */
+        $target = new BudgetCalculator();
+
+        /** Assume */
+        $expected = 100;
+
+        /** Act */
+        $actual = $target->calculate(new Carbon('2018-01-01'), new Carbon('2018-01-01'));
+
+        /** Assert */
+        $this->assertEquals($expected, $actual);
+    }
 }
