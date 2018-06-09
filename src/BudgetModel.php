@@ -1,16 +1,6 @@
 <?php
 
-class BudgetModel
+interface BudgetModel
 {
-    /**
-     * BudgetModel constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    public function query()
-    {
-
-    }
+    public function query();
 }

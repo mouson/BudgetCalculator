@@ -1,14 +1,27 @@
 {
-    "name": "twinkledj/php-tennis",
+    "name": "mouson/BudgetCalculator",
     "authors": [
         {
-            "name": "Ken Lin",
-            "email": "dj1020@gmail.com"
+            "name": "Mouson",
+            "email": "mouson@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Mouson\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require": {
-        "phpunit/phpunit": "^7.2",
-        "mockery/mockery": "^1.1",
+        "php": "^7.1.3",
         "nesbot/carbon": "^1.29"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.2",
+        "mockery/mockery": "^1.1"
     }
 }
