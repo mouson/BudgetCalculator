@@ -1,6 +1,8 @@
 <?php
+
 namespace Tests\BudgetCalculatorTest;
 
+use BudgetModel;
 use Carbon\Carbon;
 use \Mockery;
 use Mouson\BudgetCalculator\BudgetCalculator;
@@ -15,7 +17,11 @@ class BudgetCalculatorTest extends TestCase
     public function testDateInvalidate()
     {
         /** Arrange */
-        $target = new BudgetCalculator();
+        $model = Mockery::mock(BudgetModel::class);
+        /**
+         * @var $model BudgetModel
+         */
+        $target = new BudgetCalculator($model);
 
         /** Assume */
         $this->expectException(\InvalidArgumentException::class);
@@ -31,13 +37,7 @@ class BudgetCalculatorTest extends TestCase
      */
     public function testOneBudget($start, $end, $data, $expected)
     {
-        /** Arrange */
-        $model = Mockery::mock(\BudgetModel::class);
-        $model->shouldReceive('query')->andReturn($data);
-        $target = new BudgetCalculator($model);
-
-        /** Act */
-        $actual = $target->calculate(new Carbon($start), new Carbon($end));
+        $actual = $this->ShouldBeCalculate($start, $end, $data);
 
         /** Assert */
         $this->assertEquals($expected, $actual);
@@ -61,4 +61,28 @@ class BudgetCalculatorTest extends TestCase
             '202007' => 3100,
         ];
     }
+
+    /**
+     * @param $start
+     * @param $end
+     * @param $data
+     *
+     * @return int
+     */
+    protected function ShouldBeCalculate($start, $end, $data): int
+    {
+        /** Arrange */
+        $model = Mockery::mock(BudgetModel::class);
+        $model->shouldReceive('query')->andReturn($data);
+
+        /**
+         * @var $model BudgetModel
+         */
+        $target = new BudgetCalculator($model);
+
+        /** Act */
+        $actual = $target->calculate(new Carbon($start), new Carbon($end));
+
+        return $actual;
+}
 }
