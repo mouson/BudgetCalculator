@@ -58,8 +58,10 @@ class BudgetCalculatorTest extends TestCase
             ['2018/03/01', '2018/03/31', $this->getData(), 0],
             ['2018/01/01', '2018/01/31', $this->getData(), 3100],
             ['2018/01/03', '2018/01/15', $this->getData(), 1300],
-//            ['2017/07/18', '2018/02/16', $this->getData(), 0],
-//            ['2018/01/01', '2018/01/31', 3100],
+            ['2018/01/01', '2018/02/28', $this->getData(), 5900],
+            ['2018/01/15', '2018/02/14', $this->getData(), 3100],
+            ['2018/02/01', '2018/04/30', $this->getData(), 8800],
+            ['2018/05/01', '2020/02/29', $this->getData(), 6000],
         ];
     }
 
@@ -82,10 +84,10 @@ class BudgetCalculatorTest extends TestCase
      */
     public function getBudget2()
     {
-        $start = '2018/01/10';
-        $end = '2018/04/30';
+        $start = '2018/01/03';
+        $end = '2018/01/15';
         $data = $this->getData();
-        $expected = 0;
+        $expected = 1300;
 
         // Arrange
         $model = Mockery::mock(new BudgetModel());

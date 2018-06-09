@@ -27,7 +27,7 @@ class BudgetCalculator
 
         $start = new Carbon($startDate);
         $end = new Carbon($endDate);
-        $iterator = $start;
+        $iterator = $start->copy();
 
         $keys = [];
         while ($this->notDone($iterator, $end)) {
@@ -37,20 +37,37 @@ class BudgetCalculator
         }
 
         $sum = 0;
-        foreach ($keys as $i => $key) {
-            if ($i == 0) {
-                printf("%s:%d\n", 'first key', $key);
-                echo $start->copy()->lastOfMonth()->diffInDays($start) . PHP_EOL;
-            } elseif ($i == count($keys) - 1) {
-                printf("%s:%d\n", 'last key', $key);
-                echo $end->day . PHP_EOL;
-            } else {
-                // do nothing
-            }
+
+
+        if($start->format('Ym') == $end->format('Ym')) {
+            $key = $start->format('Ym');
 
             if (isset($monthBudgets[$key])) {
-                $sum += $monthBudgets[$key];
+                $days = $end->diffInDays($start) + 1;
+                $ratio = $days / $start->daysInMonth;
+                return $monthBudgets[$key] * $ratio;
             }
+            return 0;
+        }
+        foreach ($keys as $i => $key) {
+            $monthBudget = isset($monthBudgets[$key]) ? $monthBudgets[$key] : 0;
+
+            if ($i == 0) {
+                printf("%s:%d\n", 'first key', $key);
+                $days = $start->copy()->lastOfMonth()->diffInDays($start) + 1;
+                $ratio = $days / $start->daysInMonth;
+                $sum += $monthBudget * $ratio;
+            } elseif ($i == count($keys) - 1) {
+                printf("%s:%d\n", 'last key', $key);
+                $days = $end->day;
+                $ratio = $days / $end->daysInMonth;
+                $sum += $monthBudget * $ratio;
+            } else {
+                // do nothing
+                $sum += $monthBudget;
+            }
+
+
         }
 
         return $sum;
