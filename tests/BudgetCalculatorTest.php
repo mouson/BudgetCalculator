@@ -2,6 +2,7 @@
 namespace Tests\BudgetCalculatorTest;
 
 use Carbon\Carbon;
+use \Mockery;
 use Mouson\BudgetCalculator\BudgetCalculator;
 use PHPUnit\Framework\TestCase;
 
@@ -26,19 +27,38 @@ class BudgetCalculatorTest extends TestCase
 
     /**
      * @test
+     * @dataProvider CaseSets
      */
-    public function testOneBudget()
+    public function testOneBudget($start, $end, $data, $expected)
     {
         /** Arrange */
-        $target = new BudgetCalculator();
-
-        /** Assume */
-        $expected = 100;
+        $model = Mockery::mock(\BudgetModel::class);
+        $model->shouldReceive('query')->andReturn($data);
+        $target = new BudgetCalculator($model);
 
         /** Act */
-        $actual = $target->calculate(new Carbon('2018-01-01'), new Carbon('2018-01-01'));
+        $actual = $target->calculate(new Carbon($start), new Carbon($end));
 
         /** Assert */
         $this->assertEquals($expected, $actual);
+    }
+
+    public function CaseSets()
+    {
+        return [
+            ['2018-01-01', '2018-01-01', $this->BudgetSet(), 100],
+        ];
+    }
+
+    private function BudgetSet()
+    {
+        return [
+            '201801' => 3100,
+            '201802' => 2800,
+            '201804' => 6000,
+            '201805' => 3100,
+            '202002' => 2900,
+            '202007' => 3100,
+        ];
     }
 }
