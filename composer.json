@@ -1,0 +1,13 @@
+{
+    "name": "twinkledj/php-tennis",
+    "authors": [
+        {
+            "name": "Ken Lin",
+            "email": "dj1020@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^7.2",
+        "mockery/mockery": "^1.1"
+    }
+}
