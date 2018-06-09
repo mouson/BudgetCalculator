@@ -1,8 +1,12 @@
 <?php
+
+use Carbon\Carbon;
+
 require __DIR__ . '/BudgetModel.php';
 
 class BudgetCalculator
 {
+    /** @var BudgetModel $model */
     private $model;
 
     /**
@@ -19,9 +23,28 @@ class BudgetCalculator
             throw new Exception('Invalid date');
         }
 
-//        $months = $this->getQueryMonths();
+        $monthBudgets = $this->model->query();
 
-        return 0;
+        $start = new Carbon($startDate);
+        $end = new Carbon($endDate);
+        $iterator = $start;
+
+        $keys = [];
+        while ($this->notDone($iterator, $end)) {
+            // printf("%s\n", $iterator->format('m'));
+            $keys[] = $iterator->format('Ym');
+
+            $iterator = $iterator->addMonth(1);
+        }
+
+        $sum = 0;
+        foreach ($keys as $key) {
+            if (isset($monthBudgets[$key])) {
+                $sum += $monthBudgets[$key];
+            }
+        }
+
+        return $sum;
     }
 
     private function isValidDatePeriod($start, $end)
@@ -32,10 +55,8 @@ class BudgetCalculator
         return $endDate >= $startDate;
     }
 
-    private function getQueryMonths()
+    private function notDone(Carbon $iterator, Carbon $end)
     {
-        return [
-            '201801'
-        ];
+        return $iterator->format('Ym') <= $end->format('Ym');
     }
 }
