@@ -11,7 +11,7 @@ class BudgetCalculatorTest extends TestCase
      */
     public function it_should_instaniate_class()
     {
-        $actual = new BudgetCalculator('2018/01/01', '2018/01/31');
+        $actual = new BudgetCalculator();
 
         $this->assertInstanceOf(BudgetCalculator::class, $actual);
     }
@@ -28,7 +28,9 @@ class BudgetCalculatorTest extends TestCase
         $start = '2018/02/03';
         $end =   '2018/02/01';
 
-        new BudgetCalculator($start, $end);
+        $calculator = new BudgetCalculator();
+
+        $actual = $calculator->calculate($start, $end);
     }
 
     /**
@@ -38,10 +40,11 @@ class BudgetCalculatorTest extends TestCase
     public function getBudget($start, $end, $expected)
     {
         // Arrange
-        $calculator = new BudgetCalculator($start, $end);
+        $model = Mockery::mock();
+        $calculator = new BudgetCalculator($model);
 
         // Act
-        $actual = $calculator->calculate();
+        $actual = $calculator->calculate($start, $end);
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -51,6 +54,7 @@ class BudgetCalculatorTest extends TestCase
     {
         return [
             ['2018/03/01', '2018/03/31', 0],
+//            ['2018/01/01', '2018/01/31', 3100],
         ];
     }
 

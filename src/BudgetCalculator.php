@@ -1,24 +1,25 @@
 <?php
+require __DIR__ . '/BudgetModel.php';
 
 class BudgetCalculator
 {
+    private $model;
 
     /**
      * BudgetCalculator constructor.
      */
-    public function __construct($startDate, $endDate)
+    public function __construct($model = null)
+    {
+        $this->model = $model ?: new BudgetModel();
+    }
+
+    public function calculate($startDate, $endDate)
     {
         if ( ! $this->isValidDatePeriod($startDate, $endDate)) {
             throw new Exception('Invalid date');
         }
 
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-    }
-
-    public function calculate()
-    {
-
+//        $months = $this->getQueryMonths();
 
         return 0;
     }
@@ -29,5 +30,12 @@ class BudgetCalculator
         $endDate = new DateTime($end);
 
         return $endDate >= $startDate;
+    }
+
+    private function getQueryMonths()
+    {
+        return [
+            '201801'
+        ];
     }
 }
