@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Mouson\\": "src/"
+            "Mouson\\BudgetCalculator\\": "src/"
         }
     },
     "autoload-dev": {
