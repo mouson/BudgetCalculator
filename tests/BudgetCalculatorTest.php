@@ -50,6 +50,8 @@ class BudgetCalculatorTest extends TestCase
             ['2018-01-01', '2018-01-31', $this->BudgetSet(), 3100],
             ['2018-01-01', '2018-02-28', $this->BudgetSet(), 5900],
             ['2018-01-01', '2018-03-31', $this->BudgetSet(), 5900],
+            ['2018-03-03', '2018-03-13', $this->BudgetSet(), 0],
+            ['2018-05-31', '2020-02-29', $this->BudgetSet(), 3000],
         ];
     }
 
