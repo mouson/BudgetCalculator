@@ -40,11 +40,11 @@ class BudgetCalculator
         ) {
             $budget = $this->getBudget($budgets, $date->format('Ym'));
 
-            if ($date->isSameMonth($start)) {
+            if ($date->isSameMonth($start, true)) {
                 $days = ($start->daysInMonth - $start->day) +1;
 
                 $ratio = ($days / $start->daysInMonth);
-            } else if ($date->isSameMonth($end)) {
+            } else if ($date->isSameMonth($end, true)) {
                 $days = $end->day;
                 $ratio = ($days / $end->daysInMonth);
             } else {
@@ -71,5 +71,5 @@ class BudgetCalculator
         }
 
         return 0;
-}
+    }
 }
