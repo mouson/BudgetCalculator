@@ -18,9 +18,9 @@ class BudgetCalculator
 
     public function calculate(Carbon $start, Carbon $end)
     {
-        if ($end->lt($start)) {
-            throw new \InvalidArgumentException('Argument Invalid!!');
-        }
+        $period = new Period($start, $end);
+
+        $period->isInvalidPeriod();
 
         $budgets = $this->model->query();
         if ($start->isSameMonth($end, true)) {
