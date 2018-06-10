@@ -46,24 +46,37 @@ class BudgetCalculatorTest extends TestCase
     public function CaseSets()
     {
         return [
-            ['2018-01-01', '2018-01-01', $this->BudgetSet(), 100],
-            ['2018-01-01', '2018-01-31', $this->BudgetSet(), 3100],
-            ['2018-01-01', '2018-02-28', $this->BudgetSet(), 5900],
-            ['2018-01-01', '2018-03-31', $this->BudgetSet(), 5900],
-            ['2018-03-03', '2018-03-13', $this->BudgetSet(), 0],
-            ['2018-05-31', '2020-02-29', $this->BudgetSet(), 3000],
+            ['2018-01-01', '2018-01-01', $this->Budget1Month(), 100],
+            ['2018-01-01', '2018-01-31', $this->Budget1Month(), 3100],
+            ['2018-01-01', '2018-02-28', $this->Budget3Month(), 5900],
+            ['2018-01-01', '2018-03-31', $this->Budget3Month(), 5900],
+            ['2018-03-03', '2018-03-13', $this->Budget3Month(), 0],
+            ['2018-05-31', '2020-02-29', $this->BudgetOverYearMonth(), 3000],
         ];
     }
 
-    private function BudgetSet()
+    private function BudgetOverYearMonth()
+    {
+        return [
+            '201805' => 3100,
+            '202002' => 2900,
+            '202007' => 3100,
+        ];
+    }
+
+    private function Budget3Month()
     {
         return [
             '201801' => 3100,
             '201802' => 2800,
-            '201804' => 6000,
-            '201805' => 3100,
-            '202002' => 2900,
-            '202007' => 3100,
+            '201804' => 6000
+        ];
+    }
+
+    private function Budget1Month()
+    {
+        return [
+            '201801' => 3100,
         ];
     }
 
