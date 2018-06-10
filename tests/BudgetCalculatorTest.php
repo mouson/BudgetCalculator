@@ -11,6 +11,11 @@ use PHPUnit\Framework\TestCase;
 class BudgetCalculatorTest extends TestCase
 {
 
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+
     /**
      * @test
      */
